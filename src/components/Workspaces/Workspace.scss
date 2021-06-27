@@ -1,0 +1,72 @@
+.workspace-container {
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+    position: relative;
+    .top-workspace {
+        display: grid;
+        grid-template-columns: 10% auto;
+        grid-template-rows: auto auto;
+        &>img:first-child {
+            height: 10em;
+            width: 100%;
+            grid-column: 1 / span 2;
+            grid-row: 1;
+        }
+        &>img:nth-child(2) {
+            padding: 1em 0 1em 1em;
+            height: 4.5em;
+            align-self: center;
+            justify-self: center;
+            grid-column: 1;
+            grid-row: 2;
+        }
+        &>h1 {
+            font-size: 2em;
+            grid-column: 2;
+            grid-row: 2;
+            align-self: center;
+        }
+    }
+    .middle-workspace-static {
+        display: flex;
+        flex-direction: column;
+        background-color: gray;
+        padding: 1em;
+        border-radius: 5px;
+        h1:first-child {
+            font-size: 1.5em;
+            color: lightgray;
+            margin: 1em;
+        }
+        .static-panel {
+            display: flex;
+            justify-content: space-between;
+        }
+        .static-single-panel {
+            img {
+                padding: 0.3em;
+                height: 3em;
+            }
+            h1 {
+                font-size: 1.2em;
+                padding: 0.2em;
+                color: darkblue
+            }
+            p {
+                font-size: 0.8em;
+                color: gray
+            }
+            width: 33%;
+            background-color: white;
+            border-radius: 7px;
+            padding: 0.5em;
+        }
+    }
+    .bottom-with-search {
+        position: absolute;
+        top: -120px;
+        margin: auto;
+        left: 850px;
+    }
+}

@@ -1,14 +1,14 @@
-import React, {ChangeEvent, FC, useEffect, useState} from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import {fontSize} from '../../styledHelpers/FontSizes';
-import {Colors} from '../../styledHelpers/Colors';
+import { fontSize } from '../../styledHelpers/FontSizes';
+import { Colors } from '../../styledHelpers/Colors';
 import { Wrapper } from '../../styledHelpers/Components';
 
 import { IState } from '../../reducers';
 import { IUsersReducer } from '../../reducers/usersReducers';
 import { getUsers } from '../../actions/usersActions';
-import { getImg} from '../../actions/imagesActions';
+import { getImg } from '../../actions/imagesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { IImageReducer } from '../../reducers/imageReducers';
 
@@ -177,31 +177,33 @@ const EntitiesCard = styled.div`
 export const Entities: FC = () => {
 
     const [inputText, setInputText] = useState<string>('');
-
-    const {usersList } = useSelector<IState, IUsersReducer>(state => ({
+    // const [followed, setFollowed] = useState<boolean>(true);
+    const { usersList } = useSelector<IState, IUsersReducer>(state => ({
         ...state.users
     }));
 
-    const {imageList} = useSelector<IState, IImageReducer>(state =>({
+    const { imageList } = useSelector<IState, IImageReducer>(state => ({
         ...state.photos
     }))
 
-    const [displayStyle, setDisplayStyle] = useState<boolean>(true);
+    const [displayStyle, setDisplayStyle] = useState<boolean>(false);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
+        console.log(imageList)
+
         dispatch<GetImg>(getImg());
         dispatch<GetUsers>(getUsers());
     }, [dispatch]);
 
-    const inputHandler = (e: ChangeEvent<HTMLInputElement>)=> {
+    const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const text = e.target.value;
         setInputText(text);
 
     }
 
-    const changeDisplayLines = () =>{
+    const changeDisplayLines = () => {
         const x = document.getElementById('cardBox');
 
         x?.classList.remove('entitiesCardMosaic');
@@ -210,16 +212,16 @@ export const Entities: FC = () => {
         const y = document.getElementsByClassName('card') as HTMLCollectionOf<HTMLElement>;
         const z = y.length;
 
-        for(let i=0; i<z; i++){
-            if(y[i])
-            y[i].style.width = '100%';
+        for (let i = 0; i < z; i++) {
+            if (y[i])
+                y[i].style.width = '100%';
         }
 
         setDisplayStyle(false);
 
     }
 
-    const changeDisplayMosaic = () =>{
+    const changeDisplayMosaic = () => {
         const x = document.getElementById('cardBox');
 
         x?.classList.remove('entitiesCardLines');
@@ -228,51 +230,50 @@ export const Entities: FC = () => {
         const y = document.getElementsByClassName('card') as HTMLCollectionOf<HTMLElement>;
         const z = y.length;
 
-        for(let i=0; i<z; i++){
-            if(y[i])
-            y[i].style.width = '18rem';
+        for (let i = 0; i < z; i++) {
+            if (y[i])
+                y[i].style.width = '18rem';
         }
 
         setDisplayStyle(true);
     }
-
-    return(
+    return (
         <EntitiesWrapper>
             <div className="contentEntities">
                 <div className="firstLine">
-                <h2>Entities <img src="./media/icons/cog.svg" alt=""></img></h2>
-                <div className="mosaicDiv">
-                    <button className="button" onClick={changeDisplayMosaic}>
-                    <img src="./media/icons/mosaic.svg" alt="" data-license="collecting by Ralf Schmitzer from the Noun Project"></img>
-                    Mosaic
-                    </button>
-                </div>
-                <div className="linesDiv">
-                    <button className="button" onClick={changeDisplayLines}>
-                    <img src="./media/icons/three_lines.svg" alt="" data-license="Hamburger by Gautam Arora from the Noun Project"></img>
-                    </button>
-                </div>
+                    <h2>Entities <img src="./media/icons/cog.svg" alt=""></img></h2>
+                    <div className="mosaicDiv">
+                        <button className="button" onClick={changeDisplayMosaic}>
+                            <img src="./media/icons/mosaic.svg" alt="" data-license="collecting by Ralf Schmitzer from the Noun Project"></img>
+                            Mosaic
+                        </button>
+                    </div>
+                    <div className="linesDiv">
+                        <button className="button" onClick={changeDisplayLines}>
+                            <img src="./media/icons/three_lines.svg" alt="" data-license="Hamburger by Gautam Arora from the Noun Project"></img>
+                        </button>
+                    </div>
                 </div>
                 <div className="topBar">
                     <div className="leftSiteBar">
-                    <div className="expandedSelector">
-                        <p>All</p>
-                    </div>
-                    <div>
-                        <p>...</p>
-                    </div>
-                    <div>
-                        <p>Sort</p>
-                    </div>
-                    <div>
-                        <p>Filters</p>
-                    </div>
-                    <div>
-                        <p>Resize</p>
-                    </div>
-                    <div>
-                        <p>Share</p>
-                    </div>
+                        <div className="expandedSelector">
+                            <p>All</p>
+                        </div>
+                        <div>
+                            <p>...</p>
+                        </div>
+                        <div>
+                            <p>Sort</p>
+                        </div>
+                        <div>
+                            <p>Filters</p>
+                        </div>
+                        <div>
+                            <p>Resize</p>
+                        </div>
+                        <div>
+                            <p>Share</p>
+                        </div>
                     </div>
 
                     <div className="rightSiteBar">
@@ -280,7 +281,10 @@ export const Entities: FC = () => {
                             <input type="text" placeholder="Search..." value={inputText} onChange={inputHandler}></input>
                         </div>
                         <div className="expandedSelector">
-                            <p>Followed</p>
+                            <select>
+                                {/* <option onClick={() => { setFollowed(true) }}>fallowed</option>
+                                <option onClick={() => { setFollowed(false) }}>all</option> */}
+                            </select>
                         </div>
 
                     </div>
@@ -288,42 +292,47 @@ export const Entities: FC = () => {
                 </div>
 
                 <div id="cardBox" className="entitiesCardMosaic">
-                    {inputText === "" ? usersList.map((x: any) => {
-                        return(
-                        <EntitiesCard className="card">
-                            <div className="contentImg" style={{ background: `url(${imageList[x.id]?.url})`, backgroundSize: `cover`}}>
-                            </div>
-                            <div className="contentText">
-                            <h2>{x.company.name}</h2>
-                            <p>{x.company.catchPhrase}</p>
-                            </div>
-                        </EntitiesCard>
-                    )}): usersList.filter((x: any)=>{
-                        if(x.company.name.toLowerCase().includes(inputText.toLowerCase())){
-                            return x;
-                        }else{
-                            return null;
-                        }
-                    }).map((x: any)=>{
-                        if(displayStyle){
-                            return(
+
+                    {/* zmiana users na image bo ma być conajmniej 30 kafelków  */}
+                    {inputText === "" ? imageList.splice(0, 1000).map((x: any) => {
+                        return (
                             <EntitiesCard className="card">
-                                <div className="contentImg" style={{ background: `url(${imageList[x.id]?.url})`, backgroundSize: `cover`}}>
+                                <div className="contentImg" style={{ background: `url(${imageList[x.id]?.url})`, backgroundSize: `cover` }}>
                                 </div>
                                 <div className="contentText">
-                                <h2>{x.company.name}</h2>
-                                <p>{x.company.catchPhrase}</p>
+                                    <h2>{x.title}</h2>
+                                    <p>{x.title}</p>
                                 </div>
                             </EntitiesCard>
-                            )
-                        }else{
-                            return(
-                                <EntitiesCard className="card" style={{width: "100%"}}>
-                                    <div className="contentImg" style={{ background: `url(${imageList[x.id]?.url})`, backgroundSize: `cover`}}>
+                        )
+                    }) : imageList.splice(0, 30).filter((x: any) => {
+                        if (x.title.toLowerCase().includes(inputText.toLowerCase())) {
+                            return x;
+                        } else {
+                            return null;
+                        }
+                    }).map((x: any) => {
+                        if (displayStyle) {
+                            console.log(x.albumId)
+
+                            return (
+                                <EntitiesCard className="card">
+                                    <div className="contentImg" style={{ background: `url(${imageList[x.id]?.url})`, backgroundSize: `cover` }}>
                                     </div>
                                     <div className="contentText">
-                                    <h2>{x.company.name}</h2>
-                                    <p>{x.company.catchPhrase}</p>
+                                        <h2>{x.title}</h2>
+                                        <p>{x.title}</p>
+                                    </div>
+                                </EntitiesCard>
+                            )
+                        } else {
+                            return (
+                                <EntitiesCard className="card" style={{ width: "100%" }}>
+                                    <div className="contentImg" style={{ background: `url(${imageList[x.id]?.url})`, backgroundSize: `cover` }}>
+                                    </div>
+                                    <div className="contentText">
+                                        <h2>{x.title}</h2>
+                                        <p>{x.title}</p>
                                     </div>
                                 </EntitiesCard>
                             )

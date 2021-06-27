@@ -4,7 +4,7 @@ import { Colors } from '../../styledHelpers/Colors';
 
 import { Wrapper } from '../../styledHelpers/Components';
 import { fontSize } from '../../styledHelpers/FontSizes';
-import {SingleComponent} from './SingleWorkspace';
+import { SingleComponent } from './SingleWorkspace';
 
 
 
@@ -97,15 +97,15 @@ export const Workspaces: FC = () => {
 
     return (
         <WorkspacesWrapper>
-            <input type="button" className="btn btn-left" onClick={() => scrollWin(-200, 0) }>
+            <input type="button" className="btn btn-left" onClick={() => scrollWin(-200, 0)}>
 
             </input>
-            <input type="button" className="btn btn-right" onClick={() =>scrollWin(200, 0)}></input>
+            <input type="button" className="btn btn-right" onClick={() => scrollWin(200, 0)}></input>
             <h2>Workspaces</h2>
 
             <div className="scrollBar">
                 <WorkspacesContent id="workspaces">
-                    <SingleComponent/>
+                    <SingleComponent  />
                 </WorkspacesContent>
             </div>
 

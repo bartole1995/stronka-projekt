@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {fontSize} from '../../styledHelpers/FontSizes'
-import {Wrapper} from '../../styledHelpers/Components'
+import { fontSize } from '../../styledHelpers/FontSizes'
+import { Wrapper } from '../../styledHelpers/Components'
 import { Colors } from '../../styledHelpers/Colors';
 import { Pagination } from '../Pagination/Pagination';
 
@@ -75,6 +75,45 @@ const ResumeWorkContent = styled.div`
             margin-left: 5px;
         }
     }
+    .select-buttons{
+        display:flex;
+        justify-content : space-around;
+       margin-bottom: 1em
+    }
+    .select-buttons>*{
+        width: 10%;
+        height: 2em;
+        border: none;
+        font-family: sans-serif;
+    }
+    .select-buttons>:nth-child(1){
+        background-color: white;
+        color: darkblue;
+     }  .select-buttons>:nth-child(2){
+        background-color: lightgreen;
+        color:darkgreen
+     }  .select-buttons>:nth-child(3){
+        background-color: white;
+        color: lightblue;
+     }  .select-buttons>:nth-child(4){
+        background-color: lightyellow;
+        color: lightblue
+     }
+    .select-buttons>:nth-child(5){
+       background-color: lightgray;
+       color: gray;
+    }
+    .select-buttons>:nth-child(6){
+        background-color: lightgray;
+        color: gray;
+     }
+     .select-buttons>:nth-child(7){
+        background-color: white;
+        border: 1px solid gray
+     }
+
+
+
 `;
 
 const ResumeBox = styled.div`
@@ -133,13 +172,19 @@ const ResumeBox = styled.div`
                 margin-top: 2px;
             }
         }
-
+     
     }
 `;
 
-export const ResumeWork: FC = () => {
 
-    const {commentList} = useSelector<IState, ICommentsReducer>(state => ({
+type TResumeWorkProps = {
+    isAdditionalOptions?: boolean,
+    header?: string
+}
+
+export const ResumeWork = ({ isAdditionalOptions, header }: TResumeWorkProps) => {
+
+    const { commentList } = useSelector<IState, ICommentsReducer>(state => ({
         ...state.comments
     }));
 
@@ -161,39 +206,56 @@ export const ResumeWork: FC = () => {
     const currentPosts = commentList.slice(indexOfFirstPost, indexOfLastPost);
     const lastPage: number = commentList.length / postsPerPage;
 
-    const paginate = (pageNumber:number) => pageNumber>=1 && pageNumber <= lastPage ? setCurrentPage(pageNumber) : console.log("blad");
+    const paginate = (pageNumber: number) => pageNumber >= 1 && pageNumber <= lastPage ? setCurrentPage(pageNumber) : console.log("blad");
 
-    const inputHandler = (e: ChangeEvent<HTMLInputElement>)=> {
-        const text:string = e.target.value;
+    const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const text: string = e.target.value;
         setInputText(text);
 
-        if(text !== ""){
+        if (text !== "") {
             setInputSearchActive(0);
-        }else{
+        } else {
             setInputSearchActive(1);
         }
     }
 
 
-    return(
+    return (
         <WrapperResumeWork>
 
             <ResumeWorkContent>
-            <h2 id="resumeText">Resume your work</h2>
-            <div className="searchInput">
-                <input type="text" placeholder="Filter by title..." value={inputText} onChange={inputHandler}></input>
-                <img src="./media/icons/search.svg" alt="" className="searchIcon"></img>
-            </div>
-            <div className="follow">
-                <p>Followed</p>
-                <img src="./media/icons/arrow-down.svg" alt=""></img>
-            </div>
-                {inputText === "" ? currentPosts.map((us: any) =>{
-                    return(
-                        <ResumeBox key={us.id}>
-                            <h3>{us.name.charAt(0).toUpperCase()+us.name.slice(1)}</h3>
+                <h2 id="resumeText">{header ? header : "Resume your work"}</h2>
+                <div className="searchInput">
+                    <input type="text" placeholder="Filter by title..." value={inputText} onChange={inputHandler}></input>
+                    <img src="./media/icons/search.svg" alt="" className="searchIcon"></img>
+                </div>
+                <div className="follow">
+                    <select>
+                        <option value="">Followed</option>
+                        <option value="">All</option>
+                    </select>
+                    {/* <img src="./media/icons/arrow-down.svg" alt=""></img> */}
+                </div>
+                {
+                    isAdditionalOptions && <div className="select-buttons">
+                        <button onClick={() => setCurrentPage(1)}>All</button>
+                        <button onClick={() => setCurrentPage(2)}>SAS</button>
+                        <button onClick={() => setCurrentPage(3)}>SARL</button>
+                        <button onClick={() => setCurrentPage(4)}>Secondary</button>
+                        <button onClick={() => setCurrentPage(5)}>POA</button>
+                        <button onClick={() => setCurrentPage(6)}>SURVEY</button>
+                        <button onClick={() => setCurrentPage(7)}>...</button>
 
-                            <p>{us.body.charAt(0).toUpperCase()+us.body.slice(1)}</p>
+
+                    </div>
+                }
+
+                {inputText === "" ? currentPosts.map((us: any) => {
+                    return (
+                        <ResumeBox key={us.id}>
+                            <h3>{us.name.charAt(0).toUpperCase() + us.name.slice(1)}</h3>
+
+                            <p>{us.body.charAt(0).toUpperCase() + us.body.slice(1)}</p>
 
                             <div className="flowDiv">
                                 <div className="Subside">
@@ -209,37 +271,39 @@ export const ResumeWork: FC = () => {
                                 </div>
                             </div>
                         </ResumeBox>
-                    )}): commentList.filter((us: any) => {
-                        if(us.name.toLowerCase().includes(inputText.toLowerCase())){
-                            return us
-                        }else{
-                            return null;
-                        }
-                    }).map((us: any) =>{
-                        return(
-                            <ResumeBox key={us.id}>
-                                <h3>{us.name.charAt(0).toUpperCase()+us.name.slice(1)}</h3>
+                    )
+                }) : commentList.filter((us: any) => {
+                    if (us.name.toLowerCase().includes(inputText.toLowerCase())) {
+                        return us
+                    } else {
+                        return null;
+                    }
+                }).map((us: any) => {
+                    return (
+                        <ResumeBox key={us.id}>
+                            <h3>{us.name.charAt(0).toUpperCase() + us.name.slice(1)}</h3>
 
-                                <p>{us.body.charAt(0).toUpperCase()+us.body.slice(1)}</p>
+                            <p>{us.body.charAt(0).toUpperCase() + us.body.slice(1)}</p>
 
-                                <div className="flowDiv">
-                                    <div className="Subside">
-                                        <img src="./media/icons/ecosystem.svg" alt=""></img>
-                                        <p>Subsid. corp.</p>
-                                    </div>
-                                    <div className="Corp">
-                                        <img src="./media/icons/entities2.svg" alt=""></img>
-                                        <p>Corporate</p>
-                                    </div>
-                                    <div className="Updated">
-                                        <p>{us.email}</p>
-                                    </div>
+                            <div className="flowDiv">
+                                <div className="Subside">
+                                    <img src="./media/icons/ecosystem.svg" alt=""></img>
+                                    <p>Subsid. corp.</p>
                                 </div>
-                            </ResumeBox>
-                        )})}
-            {
-               inputSearchActive ? <Pagination postsPerPage={postsPerPage} totalPosts={commentList.length} paginate={paginate} pageLast={lastPage}></Pagination> : null
-            }
+                                <div className="Corp">
+                                    <img src="./media/icons/entities2.svg" alt=""></img>
+                                    <p>Corporate</p>
+                                </div>
+                                <div className="Updated">
+                                    <p>{us.email}</p>
+                                </div>
+                            </div>
+                        </ResumeBox>
+                    )
+                })}
+                {
+                    inputSearchActive ? <Pagination postsPerPage={postsPerPage} totalPosts={commentList.length} paginate={paginate} pageLast={lastPage}></Pagination> : null
+                }
 
 
             </ResumeWorkContent>

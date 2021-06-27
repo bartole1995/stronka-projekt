@@ -5,14 +5,14 @@ import "./LeftMenu.scss";
 
 import { Wrapper } from '../../styledHelpers/Components';
 import { Colors } from '../../styledHelpers/Colors';
-import {fontSize} from '../../styledHelpers/FontSizes';
-import {LeftSite} from '../LeftSite/LeftSite';
+import { fontSize } from '../../styledHelpers/FontSizes';
+import { LeftSite } from '../LeftSite/LeftSite';
 import { Link } from 'react-router-dom';
 
 import { IState } from '../../reducers';
 import { IUsersReducer } from '../../reducers/usersReducers';
 import { getUsers } from '../../actions/usersActions';
-import { getImg} from '../../actions/imagesActions';
+import { getImg } from '../../actions/imagesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { IImageReducer } from '../../reducers/imageReducers';
 
@@ -52,7 +52,7 @@ const MyImage = styled.img`
     left: 35%;
 `;
 
-const CustomParagraph= styled.p`
+const CustomParagraph = styled.p`
     font-family: sans-serif;
     margin-top: 140px;
     /* margin-left: 65px; */
@@ -61,6 +61,9 @@ const CustomParagraph= styled.p`
     font-weight: 600;
     color: ${Colors.blue};
     white-space: nowrap;
+    
+       
+    
 `;
 
 const CustomParagraph2 = styled.p`
@@ -89,11 +92,11 @@ const CustomImg = styled.img`
 
 const LeftMenu: FC = () => {
 
-    const {usersList } = useSelector<IState, IUsersReducer>(state => ({
+    const { usersList } = useSelector<IState, IUsersReducer>(state => ({
         ...state.users
     }));
 
-    const {imageList} = useSelector<IState, IImageReducer>(state =>({
+    const { imageList } = useSelector<IState, IImageReducer>(state => ({
         ...state.photos
     }))
 
@@ -110,25 +113,27 @@ const LeftMenu: FC = () => {
                 <MyDiv1>
                     <MyImage src={imageList[0]?.url} alt="image" className="profileImage"></MyImage>
 
-                    <CustomParagraph className="customParagraph">{usersList[0]?.name}</CustomParagraph>
+                    <Link to="/profile" style={{ textDecoration: "none" }}>
+                        <CustomParagraph className="customParagraph">{usersList[0]?.name}</CustomParagraph>
 
-                    <CustomParagraph2 className="customParagraph2">{usersList[0]?.company.name}</CustomParagraph2>
+                        <CustomParagraph2 className="customParagraph2">{usersList[0]?.company.name}</CustomParagraph2>
+                    </Link>
 
                     <hr></hr>
-                    <CustomImg src="./media/icons/network.png" className="customImage1"/>
+                    <CustomImg src="./media/icons/network.png" className="customImage1" />
 
                     <CustomParagraph3 className="customParagraph3">Your network</CustomParagraph3>
 
                     <Link to="/network">
-                        <div className="divCustom"><CustomImg src="./media/icons/user-plus.png" className="customImageUser"/></div>
+                        <div className="divCustom"><CustomImg src="./media/icons/user-plus.png" className="customImageUser" /></div>
                     </Link>
 
-                    <CustomImg src="./media/icons/publications.svg" className="customImage2"/>
+                    <CustomImg src="./media/icons/publications.svg" className="customImage2" />
 
                     <CustomParagraph3 className="customParagraph4">Your Publications</CustomParagraph3>
 
                     <Link to="/publications">
-                        <div className="divCustom1"><CustomImg src="./media/icons/plus.png" className="customImageUser1"/></div>
+                        <div className="divCustom1"><CustomImg src="./media/icons/plus.png" className="customImageUser1" /></div>
                     </Link>
                 </MyDiv1>
             </InnerWrapper2>

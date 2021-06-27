@@ -7,16 +7,23 @@ import posts, { IPostsReducer } from './postsReducers';
 
 import comments, { ICommentsReducer } from './commentsReducers';
 
-export default combineReducers({
+import website, { IWebsiteReducer } from './websiteReducer';
+
+export const rootReducer = combineReducers({
     users,
     photos,
     posts,
-    comments
+    comments,
+    website
 })
 
+
 export interface IState {
+    state: any;
+    [x: string]: any;
     users: IUsersReducer,
     photos: IImageReducer,
     posts: IPostsReducer
-    comments: ICommentsReducer
+    comments: ICommentsReducer,
+    website: IWebsiteReducer
 }
